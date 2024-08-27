@@ -4,21 +4,22 @@ function App() {
   const heading = "Adopt Me"
   const pets = [
     {
-      name: "Jack",
-      animal: "Rabbit",
-      breed: "Havanese"
-    },
-    {
-      name: "Jill",
-      animal: "dog",
-      breed: "Havanese"
-    },
-    {
       name: "Luna",
-      animal: "dog",
-      breed: "Havanese"
+      animal: "Dog",
+      breed: "Husky"
+    },
+    {
+      name: "Pepper",
+      animal: "Bird",
+      breed: "Parrot"
+    },
+    {
+      name: "Ricky",
+      animal: "Cat",
+      breed: "Mix"
     }
   ]
+
   return (
     <div>
       <h1>{heading}</h1>
