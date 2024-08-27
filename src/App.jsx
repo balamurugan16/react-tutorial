@@ -1,4 +1,5 @@
-import Pet from "./Pet"
+import Pet from "./components/Pet"
+import SearchParams from "./components/SearchParams"
 
 function App() {
   const heading = "Adopt Me"
@@ -23,6 +24,7 @@ function App() {
   return (
     <div>
       <h1>{heading}</h1>
+      <SearchParams />
       {
         pets.map(pet => (
           <Pet name={pet.name} animal={pet.animal} breed={pet.breed} />
