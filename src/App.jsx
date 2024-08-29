@@ -1,37 +1,25 @@
-import Pet from "./components/Pet"
-import SearchParams from "./components/SearchParams"
+import SearchParams from "./components/SearchParams";
+import "./App.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom"
+import Details from "./components/Details";
 
 function App() {
-  const heading = "Adopt Me"
-  const pets = [
-    {
-      name: "Luna",
-      animal: "Dog",
-      breed: "Husky"
-    },
-    {
-      name: "Pepper",
-      animal: "Bird",
-      breed: "Parrot"
-    },
-    {
-      name: "Ricky",
-      animal: "Cat",
-      breed: "Mix"
-    }
-  ]
-
   return (
-    <div>
-      <h1>{heading}</h1>
-      <SearchParams />
-      {
-        pets.map(pet => (
-          <Pet name={pet.name} animal={pet.animal} breed={pet.breed} />
-        ))
-      }
-    </div>
-  )
+    <BrowserRouter>
+      <header>
+        <Link to="/">Adopt Me!</Link>
+      </header>
+      <Routes>
+        <Route path="/" element={<SearchParams />} />
+        <Route path="/details/:id" element={<Details />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

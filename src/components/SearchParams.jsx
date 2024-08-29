@@ -1,39 +1,47 @@
 import { useEffect, useState } from "react";
+import Results from "./Results";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 export default function SearchParams() {
-  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
   const [animal, setAnimal] = useState("");
-  const [breed, setBreed] = useState("");
-  const breeds = [];
+  const [pets, setPets] = useState([]);
+  // const [breed, setBreed] = useState("");
+  // const breeds = [];
 
-  function changeName(e) {
-    setName(e.target.value);
+  function changeLocation(e) {
+    setLocation(e.target.value);
+  }
+
+  async function fetchPets() {
+    const response = await fetch("http://pets-v2.dev-apis.com/pets")
+    const data = await response.json();
+    setPets(data.pets)
   }
 
   useEffect(() => {
-    // side effect
-    console.log(name)
-  }, [name])
+    fetchPets();
+  }, []);
 
-  useEffect(() => {
-    // side effect
-    console.log(animal)
-  }, [animal])
-
+  async function onSubmit(e) {
+    e.preventDefault();
+    const res = await fetch(`http://pets-v2.dev-apis.com/pets?location=${location}&animal=${animal}`);
+    const body = await res.json();
+    setPets(body.pets)
+  }
 
   return (
     <div className="search-params">
-      <form>
-        <label htmlFor="name">
-          Name
+      <form onSubmit={onSubmit}>
+        <label htmlFor="location">
+          Location
           <input
             type="text"
-            id="name"
-            placeholder="Search by name"
-            value={name}
-            onChange={(e) => changeName(e)}
+            id="location"
+            placeholder="Location"
+            value={location}
+            onChange={(e) => changeLocation(e)}
           />
         </label>
         <label htmlFor="animal">
@@ -53,7 +61,7 @@ export default function SearchParams() {
             ))}
           </select>
         </label>
-        <label htmlFor="breed">
+        {/* <label htmlFor="breed">
           Breed
           <select
             disabled={!breeds.length}
@@ -68,9 +76,10 @@ export default function SearchParams() {
               </option>
             ))}
           </select>
-        </label>
-        <button type="button" onClick={() => console.log("submitted")}>Submit</button>
+        </label> */}
+        <button type="submit">Submit</button>
       </form>
+      <Results pets={pets} />
     </div>
   );
 }
