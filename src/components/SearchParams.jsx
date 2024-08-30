@@ -1,39 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Results from "./Results";
+import usePets from "../hooks/usePets";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
 export default function SearchParams() {
   const [location, setLocation] = useState("");
   const [animal, setAnimal] = useState("");
-  const [pets, setPets] = useState([]);
-  // const [breed, setBreed] = useState("");
-  // const breeds = [];
+  const [pets, filterPets] = usePets();
 
   function changeLocation(e) {
     setLocation(e.target.value);
   }
 
-  async function fetchPets() {
-    const response = await fetch("http://pets-v2.dev-apis.com/pets")
-    const data = await response.json();
-    setPets(data.pets)
-  }
-
-  useEffect(() => {
-    fetchPets();
-  }, []);
-
-  async function onSubmit(e) {
-    e.preventDefault();
-    const res = await fetch(`http://pets-v2.dev-apis.com/pets?location=${location}&animal=${animal}`);
-    const body = await res.json();
-    setPets(body.pets)
-  }
-
   return (
     <div className="search-params">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={(e) => {
+        e.preventDefault()
+        filterPets(location, animal)
+      }}>
         <label htmlFor="location">
           Location
           <input
